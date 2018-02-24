@@ -1,0 +1,50 @@
+<button class="btn btn-primary btn-lg hidden" data-toggle="modal" id="modalClick" data-target="#myModal">
+	点击开始
+</button>
+<div class="modal fade" id="myModal" tabindex="9999" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" id="myModalClose"  data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalTitle">
+					修改公告
+				</h4>
+			</div>
+			<div class="modal-body" id="myModalContent">
+				<form  (ngSubmit)="updateNoticeSubmit()" *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='财务' || sessionRole.name=='渠道管理员' || sessionRole.name=='广告管理员'" novalidate #updateNoticeForm="ngForm">
+     <label class="text-info">标题</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input"
+    minlength="2" maxlength="32"
+    #title="ngModel" required [(ngModel)]="notice.title" name="title"
+      placeholder="输入公告标题">
+      <span class="text-danger alert alert-danger " [hidden]="title.valid || title.pristine"><i class="glyphicon glyphicon-info-sign"></i>2-32位</span>
+  </div>
+    <label  class="text-info">标签类型</label>
+  <div class="comment-input-margin">
+   <input type="text" class="comment-input" 
+    minlength="1" maxlength="11"
+	 #type="ngModel" required [(ngModel)]="notice.type" name="type"
+    placeholder="输入标签类型">
+    <span class="text-danger alert alert-danger " [hidden]="type.valid || type.pristine"><i class="glyphicon glyphicon-info-sign"></i>1-11位</span>
+  </div>
+    <label class="text-info">内容</label>
+  <div class="comment-input-margin ">
+       <textarea type="text" class="comment-input" 
+   style="width:500px;min-height:200px;"
+    minlength="1" maxlength="10000"
+	 #content="ngModel" required  [(ngModel)]="notice.content" name="content"
+    placeholder="输入内容"></textarea>
+      <span class="text-danger alert alert-danger " [hidden]="content.valid || content.pristine"><i class="glyphicon glyphicon-info-sign"></i>1-10000位</span>
+  </div>  
+  <div class="comment-input-margin" style="margin-top:50px;">
+  <button type="submit" class="btn btn-lg btn-info" [disabled]=" !updateNoticeForm.valid " >保存提交</button>
+  </div>
+</form>
+			</div>
+	
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>

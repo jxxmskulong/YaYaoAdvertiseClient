@@ -1,0 +1,64 @@
+<topbar>loading...</topbar>
+<!-- 巨幕 -->
+	<div class="jumbotron mock-img-jumbotron" >
+  		<div class="container seller-formdiv ">
+  			<!-- sellerLogin -->
+			<form   *ngIf="!alreadyLogin"  (ngSubmit)="login()"  novalidate #adminLoginForm="ngForm">
+			<div class="text-center">
+			<label  class="text-danger"></label>
+			</div>
+				<div class="comment-input-margin">
+					
+					 <input
+						 pattern="(^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+(\.[a-zA-Z]{2,3})+$)|(^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$)"
+						#adminName="ngModel" required [(ngModel)]="adminLogin.adminName" name="adminName"
+						type="tel" class="comment-input" 
+						placeholder="手机/邮箱">
+					 <span class="text-danger alert alert-danger " [hidden]="adminName.valid || adminName.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写正确的手机/邮箱</span>
+				</div>
+				<div class="comment-input-margin">
+					 <input
+						minlength="6" maxlength="16"
+					  	#password="ngModel" required [(ngModel)]="adminLogin.password" name="password"
+						type="password" class="comment-input"
+						placeholder="密码">
+						<span class="text-danger alert alert-danger " [hidden]="password.valid || password.pristine"><i class="glyphicon glyphicon-info-sign"></i>密码长度6-16</span>
+				</div>
+				<!--<div class="checkbox">
+					<label> 
+					<input type="checkbox" id="autoLogin" checked="checked">自动登录
+					</label>
+				</div>-->
+				<div class="form-group">
+				<button type="submit" class="btn btn-success btn-block"  [disabled]="loginDisabled || !adminLoginForm.valid " >{{loginValue}}</button>
+				</div>				
+				<div class="form-group">
+				 <div class="btn btn-primary" routerLink="/register">立即注册</div>
+				<!--<div class="pull-right" routerLink="/" style="cursor:pointer;line-height:34px;">忘记密码？找回密码</div> -->
+				</div>				
+			
+			</form>
+  			<!-- end sellerLogin -->
+  			<!-- sellerLogining -->
+  			<form   *ngIf="alreadyLogin"> 
+			<div class="form-group text-center">
+			<label  class="text-danger hidden"></label>
+			</div>
+				<div class="form-group text-center">
+					 <!--<img  class="img-circle" style="width:50px;height:50px;" src="/resources/img/preLoding.jpg"/>-->
+					 <i class="glyphicon glyphicon-user" style="width:100px;height:100px;background-color:#ccc;color:white;border-radius:50px;line-height:100px;font-size:4rem"></i>
+				</div>
+				<!--<div class="form-group">
+				<div class="text-center alert alert-success" >这个商家很懒，还没名字~……~</div>
+				</div>-->
+				
+				<div class="button-group">
+				<button type="button"  class="btn btn-success btn-block" (click)="goMain()">进入后台</button>
+				<button type="button" class="btn btn-danger btn-block" (click)="loginOut()">退出登录</button>
+				</div>				
+			</form>
+  			<!-- end sellerLogining -->
+		</div>
+	</div>
+	<!-- end巨幕 -->
+	<footer></footer>

@@ -1,0 +1,89 @@
+<!-- 添加财务主按钮 -->
+<br/><button class="btn btn-lg btn-primary" *ngIf="sessionRole.name=='超级管理员' ||  sessionRole.name=='财务'" 
+ (click)="channelFinancial()" [disabled]="isDisabledFinancialBtn"  >渠道主</button>
+ <button class="btn btn-lg btn-success" *ngIf="sessionRole.name=='超级管理员' ||  sessionRole.name=='财务'" 
+ (click)="advertiseFinancial()" [disabled]="!isDisabledFinancialBtn"  >广告主</button>
+<!-- 添加财务主按钮end -->
+
+		<!-- 页面列表 -->
+		<div class='loadAnimation' *ngIf="showFinancialListIcon" style='z-index:99999'><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+<table class="table text-center table-striped"  style="border:2px solid #999;box-shadow:0 0 10px #999;" *ngIf="financialList.length > 0  && !showFinancialListIcon " >
+
+ <thead>
+      <tr > 
+         <th class="text-center">序号</th>
+         <th class="text-center">姓名</th>
+         <th class="text-center">手机号</th>
+         <th class="text-center">邮箱</th>
+          <th class="text-center">余额</th>
+         <th class="text-center">总充值金额</th>
+         <th class="text-center">总提现金额</th>
+         <th class="text-center">身份证</th>
+         <th class="text-center">QQ</th>
+         <th class="text-center">微信号</th>
+         <th class="text-center">开户人</th>
+         <th class="text-center">开户银行</th>
+         <th class="text-center">银行账号</th>
+         <th class="text-center">开户银行地址</th>
+         <th class="text-center">开账号权限</th>
+         <th class="text-center">账号状态</th>
+         <th class="text-center">角色</th>
+         <th class="text-center">创建时间</th>
+         <th class="text-center">最后登录时间</th>
+         <th class="text-center">操作</th>
+      </tr>
+   </thead>
+   <tbody >
+
+      <tr  *ngFor="let admin of financialList;let index=index" > 
+         <td class="text-center">{{(currentPage-1)*pageNumber+index+1}}</td>
+         <td class="text-center">{{admin.name}}</td>
+         <td class="text-center">{{admin.cell_phone}}</td>
+         <td class="text-center">{{admin.email}}</td>
+         <td class="text-center">￥<span style="color:red;">{{admin.money||'0' | ratio:'2'}}</span></td>
+         <td class="text-center">￥<span style="color:red;">{{admin.recharge||'0' | ratio:'2'}}</span></td>
+         <td class="text-center">￥<span style="color:red;">{{admin.withdrawals||'0' | ratio:'2'}}</span></td>
+         <td class="text-center">{{admin.identity_cards}}</td>
+         <td class="text-center">{{admin.qq}}</td>
+         <td class="text-center">{{admin.wechat}}</td>
+         <td class="text-center">{{admin.bank_user_name}}</td>
+         <td class="text-center">{{admin.bank_name}}</td>
+         <td class="text-center">{{admin.bank_account}}</td>
+         <td class="text-center">{{admin.bank_address}}</td>
+         <td class="text-center">{{admincan_open_accounts[admin.can_open_account] || admincan_open_accounts[0]}}</td>
+         <td class="text-center">{{admin.status}}</td>
+         <td class="text-center" >
+             <ng-container *ngFor="let role of roleList">
+           <span >
+             {{role.role_id==admin.role_id?role.name:''}}
+           </span>
+             </ng-container>
+           </td>
+         <td class="text-center">{{admin.create_date}}</td>
+         <td class="text-center">{{admin.last_login_date}}</td>
+         <td class="text-center">
+         
+         	<button class="btn btn-primary" data-target="#myModal" *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='财务'"  (click)="getWaterinformation(admin)">财务记录</button>
+         	<button class="btn btn-warning" data-target="#myModalDetail" *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='财务'"  (click)="updateFinancial(admin)">{{toggleRoleName=='渠道主'?'提&#12288;&#12288;现':'充&#12288;&#12288;值'}}</button>
+         </td>
+      </tr>
+     
+   </tbody>
+</table>
+<!-- 加载更多-->
+   <div  >
+    <ul class="pagination " >
+    <li><a (click)="toPage('首页')" >首页</a></li>
+    <li class="previous" ><a (click)="toPage('previous')" >&larr;</a></li>
+
+    <li *ngFor="let currentPageNumber of showPageNumberArray"><a (click)="toPage(currentPageNumber)" [ngClass]="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a (click)="toPage('next')" >&rarr;</a></li>
+    <li><a (click)="toPage('尾页')" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    </ul>
+   </div>
+<!--  加载更多end -->
+<main-rightbar-financial-update></main-rightbar-financial-update>
+<main-rightbar-financial-detail></main-rightbar-financial-detail>

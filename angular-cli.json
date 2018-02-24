@@ -1,0 +1,56 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "yayaoadvertiseclient"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "favicon.ico" 
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.json",
+      "prefix": "app",
+      "styles": [
+        "resources/css/bootstrap.min.css",
+        "resources/css/bootstrap-datetimepicker.min.css",
+        "resources/css/styles.css",
+        "styles.css"
+      ],
+      "scripts": [
+        "resources/js/jquery2.1.js",
+        "resources/js/bootstrap3.2.0.js",
+        "resources/js/bootstrap-datetimepicker.min.js",
+        "resources/js/bootstrap-datetimepicker.zh-CN.js",
+        "resources/js/echarts.common.min.js",
+        "resources/js/base.js"
+
+      ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "component": {}
+  }
+}

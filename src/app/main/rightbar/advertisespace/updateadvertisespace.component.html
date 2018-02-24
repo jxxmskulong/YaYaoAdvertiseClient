@@ -1,0 +1,144 @@
+<button class="btn btn-primary btn-lg hidden" data-toggle="modal" id="modalClick" data-target="#myModal">
+	点击开始
+</button>
+<div class="modal fade" id="myModal" tabindex="9999" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" id="myModalClose"  data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalTitle">
+					修改广告位
+				</h4>
+			</div>
+			<div class="modal-body" id="myModalContent">
+				<form  (ngSubmit)="updateAdvertisespaceSubmit()"  novalidate #updateAdvertisespaceForm="ngForm">
+         <label  class="text-default">*名称</label>
+  <div class="comment-input-margin ">
+    <input  type="text" class="comment-input" 
+		 minlength="2" maxlength="16" #name="ngModel" required [(ngModel)]="advertisespace.name" name="name" placeholder="输入姓名">
+  <span class="text-danger alert alert-danger " [hidden]="name.valid || name.pristine"><i class="glyphicon glyphicon-info-sign"></i>2-16位</span>
+	</div>
+    <label  class="text-default">*投放平台</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertisespace.platform" (ngModelChange)="advertisespace.platform=$event" 
+#platform="ngModel" required  name="platform"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespaceplatform of ['PC端','移动端']">
+    <option [value]="advertisespaceplatform">
+    {{advertisespaceplatform}}
+    </option> 
+</ng-container>
+</select>
+</div>
+
+ <label  class="text-default">*展示类型</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertisespace.type" (ngModelChange)="advertisespace.type=$event" 
+#type="ngModel" required  name="type"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespacetype of ['悬浮','内嵌']">
+    <option [value]="advertisespacetype">
+    {{advertisespacetype}}
+    </option> 
+</ng-container>
+</select>
+</div>
+
+<label  class="text-default">*业务类型</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertisespace.business_type" (ngModelChange)="advertisespace.business_type=$event" 
+#business_type="ngModel" required  name="business_type"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespacebusiness_type of advertisespacebusiness_types">
+    <option [value]="advertisespacebusiness_type">
+    {{advertisespacebusiness_type}}
+    </option> 
+</ng-container>
+</select>
+</div>
+
+   <label *ngIf="sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'" class="text-default">*计费方式</label>
+<div *ngIf="sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'" class="comment-input-margin">
+<select [(ngModel)]="advertisespace.billing_mode"
+#billing_mode="ngModel" required   name="billing_mode"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespacebilling_mode of advertisespacebilling_modes">
+    <option [value]="advertisespacebilling_mode">
+    {{advertisespacebilling_mode}}
+    </option> 
+</ng-container>
+</select>
+</div>
+
+ <label  class="text-default">*地域</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertisespace.region" (ngModelChange)="advertisespace.region=$event"
+#region="ngModel" required  name="region"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespaceregion of advertisespaceregions">
+    <option [value]="advertisespaceregion">
+    {{advertisespaceregion}}
+    </option> 
+</ng-container>
+</select>
+</div>
+
+<label  class="text-default">*广告位置</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertisespace.location" (ngModelChange)="advertisespace.location=$event" 
+#location="ngModel" required  name="location"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespacelocation of ['顶部','底部']">
+    <option [value]="advertisespacelocation">
+    {{advertisespacelocation}}
+    </option> 
+</ng-container>
+</select>
+</div>
+<label *ngIf="sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'" class="text-default">*单价</label>
+  <div *ngIf="sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'" class=" comment-input-margin">
+    <input type="text" class=" comment-input"
+   pattern="(^[+]?[1-9]\d*(\.\d{1,2})?$)|(^[+]?[0]{1}(\.\d{1,2})?$)"
+    #unit_price="ngModel" required [(ngModel)]="advertisespace.unit_price"  name="unit_price"
+      placeholder="两位小数">
+      <span class="text-danger alert alert-danger " [hidden]="unit_price.valid || unit_price.pristine"><i class="glyphicon glyphicon-info-sign"></i>两位小数</span>
+     </div>
+<label *ngIf="sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'" class="text-default">*状态</label>
+<div class="comment-input-margin" *ngIf="sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'">
+<select [ngModel]="advertisespace.status" (ngModelChange)="advertisespace.status=$event" 
+#status="ngModel" required  name="status"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespacestatus of ['审核中','正常']">
+    <option [value]="advertisespacestatus">
+    {{advertisespacestatus}}
+    </option> 
+</ng-container>
+</select>
+</div>
+<!--
+  <label  class="text-default">*单价</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input"
+   pattern="(^[+]?[1-9]\d*(\.\d{1,2})?$)|(^[+]?[0]{1}(\.\d{1,2})?$)"
+    #unit_price="ngModel" required [ngModel]="advertisespace.unit_price" (ngModelChange)="advertisespace.unit_price=$event;getUnitMoney()" name="unit_price"
+      placeholder="大于等于0.2,两位小数">
+      <span class="text-danger alert alert-danger " [hidden]="unit_price.valid || unit_price.pristine"><i class="glyphicon glyphicon-info-sign"></i>大于等于0.2,两位小数</span>
+     </div>-->
+  <div class="comment-input-margin" style="margin-top:50px;">
+  <button type="submit" class="btn btn-lg btn-info" [disabled]=" !updateAdvertisespaceForm.valid " >保存提交</button>
+  </div>
+</form>
+			</div>
+	
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>

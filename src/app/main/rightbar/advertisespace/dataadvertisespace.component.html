@@ -1,0 +1,57 @@
+<button class="btn btn-primary btn-lg hidden" data-toggle="modal" id="modalClickData" data-target="#myModalData">
+	点击开始
+</button>
+<div class="modal fade" id="myModalData" tabindex="9999" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="zoom:1;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" id="myModalCloseData"  data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalTitleData">
+                    <div class='text-center text-info'>{{advertisespace.name}}数据</div>
+				</h4>
+			</div>
+			<div class="modal-body" id="myModalContentData">
+                    <ul class="list-group" style="margin-top:20px;">
+            <li class="list-group-item text-center">
+           <div class="btn-group">
+                <button type="btn btn-default"  [ngClass]="{'btn-theme':todayDataBtn==true}" (click)="todayData()" class="btn btn-default">今日数据</button>
+                <button type="btn  btn-default"  [ngClass]="{'btn-theme':sevendayDataBtn==true}" (click)="sevendayData()" class="btn btn-default">七日数据</button>
+                <button type="btn  btn-default"  [ngClass]="{'btn-theme':thirtydayDataBtn==true}" (click)="thirtydayData()" class="btn btn-default">三十日数据</button>
+        </div></li>
+            <li class='list-group-item'><div id='main' style='width:800px;height:400px;border:1px dashed #ccc;'></div></li>
+            <li class='list-group-item'>
+            <div class="alert alert-danger text-center" style="margin:20px 0;" *ngIf="advertisespacedataList.length <=0">
+                <p>暂无数据！</p>
+            </div>
+                <table class='table text-center table-striped' style='border:2px solid #999;box-shadow:0 0 10px #999;' *ngIf="advertisespacedataListInit.length > 0">
+                
+                 <thead>
+                      <tr class='row'>
+                        <th class='text-center col-xs-1'>序号</th>
+                        <th class='text-center col-xs-3'>日期</th>
+                        <th class='text-center col-xs-2'>浏览次数(PV)</th>
+                        <th class='text-center col-xs-2'>独立访客(UV)</th>
+                        <th class='text-center col-xs-2'>IP</th>
+                        <th class='text-center col-xs-2'>转发</th>
+                     </tr>
+                </thead>
+                  <tbody  >
+                    <tr class='row' *ngFor="let advertisespacedata of advertisespacedataListInit;let index=index">
+                      <td class='text-center col-xs-1'>{{index+1}}</td>
+                      <td class='text-center col-xs-3'>{{advertisespacedata.daily_day | date:'yyyy-MM-dd'}}</td>
+                      <td class='text-center col-xs-2'>{{advertisespacedata.pvs}}</td>
+                      <td class='text-center col-xs-2'>{{advertisespacedata.uvs}}</td>
+                      <td class='text-center col-xs-2'>{{advertisespacedata.ips}}</td>
+                      <td class='text-center col-xs-2'>{{advertisespacedata.forward}}</td>
+                     </tr>
+                 </tbody>
+               </table>
+            </li>
+        </ul>
+			</div>
+	
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>

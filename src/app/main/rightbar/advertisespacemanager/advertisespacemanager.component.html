@@ -1,0 +1,196 @@
+<!-- 添加渠道主按钮 -->
+<br/><div class="btn btn-lg btn-primary" *ngIf="sessionRole.name=='超级管理员' ||  sessionRole.name=='渠道管理员'" 
+ (click)="toggleListAdvertisespacemanager()"   >{{toggleListAdvertisespacemanagerValue}}</div>
+<!-- 添加渠道主按钮end -->
+
+<!-- 增加渠道主 -->
+	<form *ngIf="toggleListAdvertisespacemanagerValue=='渠道主列表' && (sessionRole.name=='超级管理员' || sessionRole.name=='渠道管理员')" (ngSubmit)="saveAdvertisespacemanager()"  novalidate #saveAdvertisespacemanagerForm="ngForm">
+     <label  class="text-default">*姓名</label>
+  <div class="comment-input-margin ">
+    <input  type="text" class="comment-input" 
+		 minlength="2" maxlength="16" #name="ngModel" required [(ngModel)]="admin.name" name="name" placeholder="输入姓名">
+  <span class="text-danger alert alert-danger " [hidden]="name.valid || name.pristine"><i class="glyphicon glyphicon-info-sign"></i>2-16位</span>
+	</div>
+<label  class="text-default">*手机号</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" 
+		 pattern="^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$"  [(ngModel)]="admin.cell_phone" #cell_phone="ngModel" name="cell_phone" required  placeholder="输入手机号">
+		<span class="text-danger alert alert-danger " [hidden]="cell_phone.valid || cell_phone.pristine"><i class="glyphicon glyphicon-info-sign"></i>输入正确手机号码</span>
+	</div>
+    <label  class="text-default">*邮箱</label>
+  <div class="comment-input-margin">
+    <input type="text" class="comment-input" 
+		 pattern="^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+(\.[a-zA-Z]{2,3})+$" #email="ngModel" required [(ngModel)]="admin.email" name="email" placeholder="输入邮箱">
+  <span class="text-danger alert alert-danger " [hidden]="email.valid || email.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写正确的邮箱</span>
+  </div>
+
+  <label  class="text-default">*密码</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input"
+    minlength="6" maxlength="16"
+    
+    #password="ngModel" required [(ngModel)]="admin.password" name="password"
+      placeholder="6-16位">
+      <span class="text-danger alert alert-danger " [hidden]="password.valid || password.pristine"><i class="glyphicon glyphicon-info-sign"></i>6-16位</span>
+     </div>
+
+  <label  class="text-default">身份证</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input"  [(ngModel)]="admin.identity_cards " 
+    pattern="^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$" #identity_cards ="ngModel" name="identity_cards"  placeholder="输入身份证">
+  <span class="text-danger alert alert-danger " [hidden]="identity_cards.valid || identity_cards.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写15/18位身份证</span>
+  </div>
+  <label  class="text-default">QQ</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input"  [(ngModel)]="admin.qq " 
+    minlength="6" maxlength="16" #qq ="ngModel" name="qq"  placeholder="输入QQ">
+  <span class="text-danger alert alert-danger " [hidden]="qq.valid || qq.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写6-16位</span>
+  </div>
+  <label  class="text-default">微信号</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input"  [(ngModel)]="admin.wechat " 
+    minlength="1" maxlength="32" #wechat ="ngModel" name="wechat"  placeholder="输入微信号">
+  <span class="text-danger alert alert-danger " [hidden]="wechat.valid || wechat.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写1-32位</span>
+  </div>
+  <label  class="text-default">*开户人</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input"  [(ngModel)]="admin.bank_user_name " required minlength="2" maxlength="16" #bank_user_name ="ngModel" name="bank_user_name"  placeholder="输入开户人姓名">
+  <span class="text-danger alert alert-danger " [hidden]="bank_user_name.valid || bank_user_name.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写2-16位</span>
+  </div>
+    <label  class="text-default">*开户银行</label>
+  <div class="comment-input-margin ">
+    <input type="text" class="comment-input"  [(ngModel)]="admin.bank_name" required minlength="2" maxlength="20" #bank_name="ngModel" name="bank_name" placeholder="输入开户银行">
+ <span class="text-danger alert alert-danger " [hidden]="bank_name.valid || bank_name.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写正确开户银行</span>
+  </div>
+    <label  class="text-default">*银行账号</label>
+  <div class="comment-input-margin">
+    <input type="text" class="comment-input"  [(ngModel)]="admin.bank_account" required pattern="^[0-9]{16,19}$" #bank_account="ngModel" name="bank_account" placeholder="输入银行账号">
+ <span class="text-danger alert alert-danger " [hidden]=" bank_account.valid || bank_account.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写16/19位银行账号</span> 
+  </div>
+    <label  class="text-default">*开户地址</label>
+  <div class="comment-input-margin">
+    <input type="text" class="comment-input"  [(ngModel)]="admin.bank_address" required minlength="6" maxlength="32" #bank_address="ngModel" name="bank_address" placeholder="输入开户银行地址">
+ <span class="text-danger alert alert-danger " [hidden]=" bank_address.valid || bank_address.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写6-32位开户银行地址</span> 
+  </div>
+
+   <label  class="text-default">开账号权限</label>
+<div class="comment-input-margin">
+<select [ngModel]="admin.can_open_account" (ngModelChange)="admin.can_open_account=$event" 
+#can_open_account="ngModel" required  name="can_open_account"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let admincan_open_account of admincan_open_accounts">
+    <option [value]="admincan_open_accounts.indexOf(admincan_open_account)<0?0:admincan_open_accounts.indexOf(admincan_open_account)">
+    {{admincan_open_account}}
+    </option> 
+</ng-container>
+</select>
+</div>
+    <label  class="text-default">账户状态</label>
+<div class="comment-input-margin">
+<select [ngModel]="admin.status" (ngModelChange)="admin.status=$event" 
+#status="ngModel" required  name="status"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let adminstatus of ['审核中','正常','锁定']">
+    <option [value]="adminstatus">
+    {{adminstatus}}
+    </option> 
+</ng-container>
+</select>
+</div>
+  <div class="comment-input-margin" style="margin-top:50px;">
+  <button type="submit" class="btn btn-lg btn-info" [disabled]=" !saveAdvertisespacemanagerForm.valid " >保存提交</button>
+  </div>
+</form>
+<!-- 增加渠道主 end-->
+
+		<!-- 页面列表 -->
+		<div class='loadAnimation' *ngIf="showAdvertisespacemanagerListIcon" style='z-index:99999'><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+<table class="table text-center table-striped"  style="border:2px solid #999;box-shadow:0 0 10px #999;" *ngIf="toggleListAdvertisespacemanagerValue=='添加渠道主' && advertisespacemanagerList.length > 0  && !showAdvertisespacemanagerListIcon " >
+
+ <thead>
+      <tr > 
+         <th class="text-center">序号</th>
+         <th class="text-center">姓名</th>
+         <th class="text-center">手机号</th>
+         <th class="text-center">邮箱</th>
+         <th class="text-center">余额</th>
+         <th class="text-center">总充值金额</th>
+         <th class="text-center">总提现金额</th>
+         <th class="text-center">身份证</th>
+         <th class="text-center">QQ</th>
+         <th class="text-center">微信号</th>
+         <th class="text-center">开户人</th>
+         <th class="text-center">开户银行</th>
+         <th class="text-center">银行账号</th>
+         <th class="text-center">开户银行地址</th>
+         <th class="text-center">开账号权限</th>
+         <th class="text-center">账号状态</th>
+         <th class="text-center">角色</th>
+         <th class="text-center">创建时间</th>
+         <th class="text-center">最后登录时间</th>
+         <th class="text-center">操作</th>
+      </tr>
+   </thead>
+   <tbody >
+
+      <tr  *ngFor="let admin of advertisespacemanagerList;let index=index" > 
+         <td class="text-center">{{(currentPage-1)*pageNumber+index+1}}</td>
+         <td class="text-center">{{admin.name}}</td>
+         <td class="text-center">{{admin.cell_phone}}</td>
+         <td class="text-center">{{admin.email}}</td>
+         <td class="text-center">￥<span style="color:red;">{{admin.money||'0' | ratio:'2'}}</span></td>
+         <td class="text-center">￥<span style="color:red;">{{admin.recharge||'0' | ratio:'2'}}</span></td>
+         <td class="text-center">￥<span style="color:red;">{{admin.withdrawals||'0' | ratio:'2'}}</span></td>
+         <td class="text-center">{{admin.identity_cards}}</td>
+         <td class="text-center">{{admin.qq}}</td>
+         <td class="text-center">{{admin.wechat}}</td>
+         <td class="text-center">{{admin.bank_user_name}}</td>
+         <td class="text-center">{{admin.bank_name}}</td>
+         <td class="text-center">{{admin.bank_account}}</td>
+         <td class="text-center">{{admin.bank_address}}</td>
+          <td class="text-center">{{admincan_open_accounts[admin.can_open_account] || admincan_open_accounts[0]}}
+            <button class="btn btn-primary"  *ngIf="admin.can_open_account=='1'&& (sessionRole.name=='超级管理员' || sessionRole.name=='渠道管理员')"   [routerLink]="['/main/child/', admin.admin_id]">下级账户</button>
+
+          </td>
+         <td class="text-center">{{admin.status}}</td>
+         <td class="text-center" >
+             <ng-container *ngFor="let role of roleList">
+           <span >
+             {{role.role_id==admin.role_id?role.name:''}}
+           </span>
+             </ng-container>
+           </td>
+         <td class="text-center">{{admin.create_date}}</td>
+         <td class="text-center">{{admin.last_login_date}}</td>
+         <td class="text-center">
+         	<button class="btn btn-warning" data-target="#myModal" *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道管理员'"  (click)="updateAdvertisespacemanager(admin)">编&#12288;辑</button>
+         	<button class="btn btn-primary"  *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道管理员'"   [routerLink]="['/main/website/', admin.admin_id]">网&#12288;站</button>
+         	<button class="btn btn-info"  *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道管理员'"   [routerLink]="['/main/advertisespace/', admin.admin_id]">广告位</button>
+           <!--<button class="btn btn-danger"  *ngIf="sessionRole.name=='超级管理员' " (click)="delAdvertisespacemanager(admin)">删除</button>-->
+         </td>
+      </tr>
+     
+   </tbody>
+</table>
+		<!-- 页面列表end -->
+<div *ngIf="toggleListAdvertisespacemanagerValue=='添加渠道主' &&  advertisespacemanagerList.length <= 0 && !showAdvertisespacemanagerListIcon" class="text-center alert alert-warning">
+       还没有渠道主，点击上面的添加渠道主快速添加吧！
+   </div>
+<!-- 加载更多end -->
+   <div *ngIf="toggleListAdvertisespacemanagerValue=='添加渠道主'" >
+    <ul class="pagination " >
+    <li><a (click)="toPage('首页')" >首页</a></li>
+    <li class="previous" ><a (click)="toPage('previous')" >&larr;</a></li>
+
+    <li *ngFor="let currentPageNumber of showPageNumberArray"><a (click)="toPage(currentPageNumber)" [ngClass]="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a (click)="toPage('next')" >&rarr;</a></li>
+    <li><a (click)="toPage('尾页')" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    </ul>
+   </div>
+<!--  加载更多end -->
+<main-rightbar-advertisespacemanager-update></main-rightbar-advertisespacemanager-update>

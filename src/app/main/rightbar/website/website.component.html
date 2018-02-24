@@ -1,0 +1,130 @@
+<!-- 添加网站按钮 -->
+<br/><div class="btn btn-lg btn-primary" *ngIf="sessionRole.name=='超级管理员' ||  sessionRole.name=='渠道主' || sessionRole.name=='渠道管理员'" 
+ (click)="toggleListWebsite()"   >{{toggleListWebsiteValue}}</div>
+ <div class="btn btn-lg btn-default" *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道管理员'" 
+ routerLink="/main/advertisespacemanager"  >返回渠道主管理</div>
+  <div class="btn btn-lg btn-default" *ngIf="sessionAdmin.can_open_account=='1' && sessionAdmin.admin_id!=websiteAdminId" 
+  [routerLink]="['/main/child',sessionAdmin.admin_id]" >返回下级账户菜单</div>
+<!-- 添加网站按钮end -->
+<div class="alert alert-success" style="margin:20px 0;">
+     温馨提示：
+     <p>网站等级分为五等星，一星最低，五星最高，此项由平台管理人员评级</p>
+     <p>因为广告分发为系统智能匹配，所以不是单价越高越好，为保障各大站长利益，初始皆为一星，广告位单价初始为最低0.2元</p>
+     <p>二星以上可以选择更高的单价</p>
+ </div>
+<div class="alert alert-danger" style="margin:20px 0;">
+     规则：
+    <p>1,创建网站</p>
+    <p>2,审核通过，创建广告位</p>
+ </div>
+<!-- 增加网站 -->
+	<form [hidden]="toggleListWebsiteValue!='网站列表' || (sessionRole.name!='超级管理员' && sessionRole.name!='渠道主' && sessionRole.name!='渠道管理员')" (ngSubmit)="saveWebsite()"  novalidate #saveWebsiteForm="ngForm">
+     <label  class="text-default">*名称</label>
+  <div class="comment-input-margin ">
+    <input  type="text" class="comment-input" 
+		 minlength="2" maxlength="16" #name="ngModel" required [(ngModel)]="website.name" name="name" placeholder="输入姓名">
+  <span class="text-danger alert alert-danger " [hidden]="name.valid || name.pristine"><i class="glyphicon glyphicon-info-sign"></i>2-16位</span>
+	</div>
+
+    <label  class="text-default">*类型</label>
+  <div class="comment-input-margin">
+    <input type="text" class="comment-input" 
+		  minlength="2" maxlength="16" #type="ngModel" required [(ngModel)]="website.type" name="type" placeholder="输入类型">
+  <span class="text-danger alert alert-danger " [hidden]="type.valid || type.pristine"><i class="glyphicon glyphicon-info-sign"></i>2-16位</span>
+  </div>
+
+  <label  class="text-default">*网站url</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input"
+   pattern="(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?"
+    #url="ngModel" required [(ngModel)]="website.url" name="url"
+      placeholder="http://或https://">
+      <span class="text-danger alert alert-danger " [hidden]="url.valid || url.pristine"><i class="glyphicon glyphicon-info-sign"></i>链接地址错误</span>
+     </div>
+    <!--<label  class="text-default">*备注</label>
+  <div class="comment-input-margin">
+  <textarea type="text" class="comment-input" 
+   style="width:500px;min-height:200px;"
+    minlength="2" maxlength="64"
+	 #remark="ngModel"  [(ngModel)]="website.remark" name="remark"
+    placeholder="输入备注"></textarea>
+  <span class="text-danger alert alert-danger " [hidden]="remark.valid || remark.pristine"><i class="glyphicon glyphicon-info-sign"></i>2-64位</span>
+  </div>-->
+  <label *ngIf="sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'" class="text-default">*等级</label>
+<div class="comment-input-margin" *ngIf="sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'">
+<select [ngModel]="website.remark" (ngModelChange)="website.remark=$event" 
+#remark="ngModel" required  name="remark"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let websiteremark of ['一星','二星','三星','四星','五星']">
+    <option [value]="websiteremark">
+    {{websiteremark}}
+    </option> 
+</ng-container>
+</select>
+</div>
+  <div class="comment-input-margin" style="margin-top:50px;">
+  <button type="submit" class="btn btn-lg btn-info" [disabled]=" !saveWebsiteForm.valid " >保存提交</button>
+  </div>
+</form>
+<!-- 增加网站 end-->
+
+		<!-- 页面列表 -->
+		<div class='loadAnimation' *ngIf="showWebsiteListIcon" style='z-index:99999'><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+<table class="table text-center table-striped"  style="border:2px solid #999;box-shadow:0 0 10px #999;" *ngIf="toggleListWebsiteValue=='添加网站' && websiteList.length > 0  && !showWebsiteListIcon " >
+
+ <thead>
+      <tr > 
+         <th class="text-center">序号</th>
+         <th class="text-center">名称</th>
+         <th class="text-center">类型</th>
+         <th class="text-center">网站url</th>
+         <th class="text-center">网站状态</th>
+         <th class="text-center">等级</th>
+         <th class="text-center">更新时间</th>
+         <th class="text-center">操作</th>
+      </tr>
+   </thead>
+   <tbody >
+
+      <tr  *ngFor="let website of websiteList;let index=index" > 
+         <td class="text-center">{{(currentPage-1)*pageNumber+index+1}}</td>
+         <td class="text-center">{{website.name}}</td>
+         <td class="text-center">{{website.type}}</td>
+         <td class="text-center"><a style="background-color:white !important;color:green !important; " target="_blank" [href]="website.url">{{website.url}}</a></td>
+         <td class="text-center">{{website.status}}</td>
+         <td class="text-center">{{website.remark}}</td>
+         <td class="text-center">{{website.update_date}}</td>
+         <td class="text-center">
+         <div *ngIf="website.status=='正常' || sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'">
+         	<button class="btn btn-warning" data-target="#myModal" *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道主' || sessionRole.name=='渠道管理员'"  (click)="updateWebsite(website)">编辑</button>
+         	<!--<button class="btn btn-danger"  *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道主'" (click)="delWebsite(website)">删除</button>-->
+         </div>
+          <div *ngIf="website.status!='正常' && sessionRole.name=='渠道主'">
+            <span>{{website.status}}</span>
+          </div>
+         </td>
+      </tr>
+     
+   </tbody>
+</table>
+		<!-- 页面列表end -->
+<div *ngIf="toggleListWebsiteValue=='添加网站' &&  websiteList.length <= 0 && !showWebsiteListIcon" class="text-center alert alert-warning">
+       还没有网站，点击上面的添加网站快速添加吧！
+   </div>
+<!-- 加载更多end -->
+   <div *ngIf="toggleListWebsiteValue=='添加网站'" >
+    <ul class="pagination " >
+    <li><a (click)="toPage('首页')" >首页</a></li>
+    <li class="previous" ><a (click)="toPage('previous')" >&larr;</a></li>
+
+    <li *ngFor="let currentPageNumber of showPageNumberArray"><a (click)="toPage(currentPageNumber)" [ngClass]="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a (click)="toPage('next')" >&rarr;</a></li>
+    <li><a (click)="toPage('尾页')" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    </ul>
+   </div>
+<!--  加载更多end -->
+<main-rightbar-website-update></main-rightbar-website-update>

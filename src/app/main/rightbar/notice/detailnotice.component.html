@@ -1,0 +1,28 @@
+<button class="btn btn-primary btn-lg hidden" data-toggle="modal" id="modalClickDetail" data-target="#myModalDetail">
+	点击开始
+</button>
+<div class="modal fade" id="myModalDetail" tabindex="9999" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content" style="min-height:500px;">
+			<div class="modal-header">
+				<button type="button" class="close" id="myModalCloseDetail"  data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title text-center text-primary" style="color:white;text-shadow:1px 1px 5px #000;font-weight:bold;" id="myModalTitleDetail">
+				   {{notice.title}}
+				</h4>
+                <br/>
+                   更新时间:
+                <small class="text-info">
+                   {{notice.update_date}}
+                </small>
+                   类型:
+                <small  class="text-danger">
+                   {{notice.type}}
+                </small>
+			</div>
+			<div class="modal-body" id="myModalContentDetail" style="white-space:pre-wrap;">{{notice.content}}</div>
+	
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>

@@ -1,0 +1,31 @@
+<button class="btn btn-primary btn-lg hidden" data-toggle="modal" id="modalClick" data-target="#myModal">
+	点击开始
+</button>
+<div class="modal fade" id="myModal" tabindex="9999" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" id="myModalClose"  data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalTitle">
+					修改财务
+				</h4>
+			</div>
+			<div class="modal-body" id="myModalContent">
+				<form  (ngSubmit)="updateFinancialSubmit()"  novalidate #updateFinancialForm="ngForm">
+					<label  class="text-danger">*{{toggleRoleName=='渠道主'?'提现':'充值'}}金钱</label>
+                <div class="comment-input-margin ">
+                    <input  type="text" class="comment-input" 
+                       pattern="(^[+]?[1-9]\d*(\.\d{1,2})?$)|(^[+]?[0]{1}(\.\d{1,2})?$)" #money="ngModel" required [(ngModel)]="waterinformation.money" name="money" placeholder="大于0，两位小数">
+                <span class="text-danger alert alert-danger " [hidden]="money.valid || money.pristine"><i class="glyphicon glyphicon-info-sign"></i>大于0，两位小数</span>
+                    </div>
+  <div class="comment-input-margin" style="margin-top:50px;">
+  <button type="submit" class="btn btn-lg btn-info" [disabled]=" !updateFinancialForm.valid " >保存提交</button>
+  </div>
+</form>
+			</div>
+	
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>

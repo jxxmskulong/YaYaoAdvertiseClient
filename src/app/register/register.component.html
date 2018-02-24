@@ -1,0 +1,60 @@
+<topbar>loading...</topbar>
+<!-- 注册 -->
+<!-- 巨幕 -->
+	<div class="jumbotron mock-img-jumbotron" >
+  		<div class="container seller-formdiv ">
+  			<!-- sellerLogin -->
+			<form *ngIf="!alreadyLogin"  (ngSubmit)="registerSubmit()"  novalidate #adminRegisterForm="ngForm">
+			<div class="text-center">
+			<label  class="text-danger"></label>
+			</div>
+				<div class="comment-input-margin">
+					 <input
+						 pattern="(^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+(\.[a-zA-Z]{2,3})+$)|(^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$)"
+						#adminName="ngModel" required [(ngModel)]="adminRegister.adminName" name="adminName"
+						type="tel" class="comment-input" 
+						placeholder="手机/邮箱">
+					 <span class="text-danger alert alert-danger " [hidden]="adminName.valid || adminName.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写正确的手机/邮箱</span>
+				</div>
+				<div class="comment-input-margin">
+					<input
+						minlength="6" maxlength="16"
+					  	#password="ngModel" required [(ngModel)]="adminRegister.password" name="password"
+						type="password" class="comment-input"
+						placeholder="密码">
+						<span class="text-danger alert alert-danger " [hidden]="password.valid || password.pristine"><i class="glyphicon glyphicon-info-sign"></i>密码长度6-16</span>
+				</div>
+				<div class="comment-input-margin">
+					<input type="text" class="comment-input" style="width:45%"
+					minlength="4" maxlength="4"
+					 #validCode="ngModel" required [(ngModel)]="adminRegister.validCode" name="validCode"
+					 placeholder="验证码">
+					<input class="comment-input btn btn-danger" style="width:45%" [disabled]="isSendValidCode" (click)="getValidCode()" type="button" [value]="validCodeValue"/>
+					 <span class="text-danger alert alert-danger " [hidden]="validCode.valid || validCode.pristine"><i class="glyphicon glyphicon-info-sign"></i>验证码不正确</span>
+				</div>
+			
+				<div class="comment-input-margin">
+				<select [ngModel]="adminRegister.roleId" (ngModelChange)="adminRegister.roleId=$event" 
+				#roleId="ngModel" required  name="roleId"
+				>
+				<option value="">请选择</option>
+				<ng-container *ngFor="let role of roleList">
+					<option [value]="role.role_id" *ngIf="role.name=='渠道主' || role.name=='广告主'">
+					{{role.name}}
+					</option> 
+				</ng-container>
+				</select>
+				</div>
+				<div class="form-group">
+				<button type="submit" class="btn btn-success btn-block"   [disabled]="registerDisabled || !adminRegisterForm.valid" >{{registerValue}}</button>
+				</div>				
+				<div class="form-group">
+				 <div class="btn btn-primary" routerLink="/index">返回登录</div>
+				<!--<div class="pull-right" routerLink="/" style="cursor:pointer;line-height:34px;">忘记密码？找回密码</div> -->
+				</div>				
+			
+			</form>
+  		</div>
+	</div>
+	<!-- end注册 -->
+	<footer></footer>

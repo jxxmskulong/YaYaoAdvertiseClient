@@ -1,0 +1,163 @@
+<button class="btn btn-primary btn-lg hidden" data-toggle="modal" id="modalClick" data-target="#myModal">
+	点击开始
+</button>
+<div class="modal fade" id="myModal" tabindex="9999" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" id="myModalClose"  data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalTitle">
+					修改广告
+				</h4>
+			</div>
+			<div class="modal-body myScroller" id="myModalContent">
+				<form  (ngSubmit)="updateAdvertiseSubmit()"  novalidate #updateAdvertiseForm="ngForm">
+        <label  class="text-default">*名称</label>
+  <div class="comment-input-margin ">
+    <input  type="text" class="comment-input" 
+		 minlength="2" maxlength="16" #name="ngModel" required [(ngModel)]="advertise.name" name="name" placeholder="输入名称">
+  <span class="text-danger alert alert-danger " [hidden]="name.valid || name.pristine"><i class="glyphicon glyphicon-info-sign"></i>2-16位</span>
+	</div>
+    <label  class="text-default">*类型</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertise.type" (ngModelChange)="advertise.type=$event" 
+#type="ngModel" required  name="type"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisetype of ['移动端','PC端']">
+    <option [value]="advertisetype">
+    {{advertisetype}}
+    </option> 
+</ng-container>
+</select>
+</div>
+<label  class="text-default">*子类型</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertise.subtype" (ngModelChange)="advertise.subtype=$event"
+#type="ngModel" required  name="subtype"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisesubtype of advertisesubtypes">
+    <option [value]="advertisesubtype">
+    {{advertisesubtype}}
+    </option> 
+</ng-container>
+</select>
+</div>
+    <!--<label  class="text-default">*子类型</label>
+  <div class="comment-input-margin">
+    <input type="text" class="comment-input" 
+		  minlength="2" maxlength="16" #subtype="ngModel" required [(ngModel)]="advertise.subtype" name="subtype" placeholder="输入子类型">
+  <span class="text-danger alert alert-danger " [hidden]="subtype.valid || subtype.pristine"><i class="glyphicon glyphicon-info-sign"></i>2-16位</span>
+  </div>-->
+  <label  class="text-default">*计费方式</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertise.billing_mode"  (ngModelChange)="advertise.billing_mode=$event;getUnitMoney()"
+#billing_mode="ngModel" required  name="billing_mode"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisebilling_mode of advertisebilling_modes">
+    <option [value]="advertisebilling_mode">
+    {{advertisebilling_mode}}
+    </option> 
+</ng-container>
+</select>
+</div>
+ <label  class="text-default">*地域</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertise.region" (ngModelChange)="advertise.region=$event"
+#region="ngModel" required  name="region"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertiseregion of advertiseregions">
+    <option [value]="advertiseregion">
+    {{advertiseregion}}
+    </option> 
+</ng-container>
+</select>
+</div>
+  <label  class="text-default">标题</label>
+   <div class="text-danger">默认无标题，可不填，填写后为图文结合</div>
+  <div class="comment-input-margin">
+    <input type="text" class="comment-input" 
+		  minlength="2"  maxlength="32" #title="ngModel"  [(ngModel)]="advertise.title" name="title" placeholder="输入标题">
+  <span class="text-danger alert alert-danger " [hidden]="title.valid || title.pristine"><i class="glyphicon glyphicon-info-sign"></i>2-32位</span>
+  </div>
+  <label  class="text-default">*广告图片</label>
+  
+  <!--<div class=" comment-input-margin">
+    <input type="text" class=" comment-input"
+   pattern="(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?"
+    #img="ngModel" required [(ngModel)]="advertise.img" name="img"
+      placeholder="http://或https://">
+      <span class="text-danger alert alert-danger " [hidden]="img.valid || img.pristine"><i class="glyphicon glyphicon-info-sign"></i>广告图片地址错误</span>
+     </div>-->
+
+ <div class="text-danger">图片尺寸为比例尺寸，宽:高=16:5 (如：宽=320px,高=100px,宽=480px,高=150px),大小不超过200KB</div>
+     <div><img style="width:auto;height: auto;max-width:960px;max-height: 300px;"  [src]="advertise.img"/></div>
+     <input type="file"  id="updateAdvertiseImg" required (change)="updateAdvertiseImg()"/>
+     <input type="hidden" name="img" [(ngModel)]="advertise.img" required />
+
+  <label  class="text-default">*链接地址</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input"
+   pattern="(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?"
+    #link="ngModel" required [(ngModel)]="advertise.link" name="link"
+      placeholder="http://或https://">
+      <span class="text-danger alert alert-danger " [hidden]="link.valid || link.pristine"><i class="glyphicon glyphicon-info-sign"></i>链接地址错误</span>
+     </div>
+  <label  class="text-default">*单价</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input"
+   pattern="(^[+]?[1-9]\d*(\.\d{1,2})?$)|(^[+]?[0]{1}(\.\d{1,2})?$)"
+    #unit_price="ngModel" required [ngModel]="advertise.unit_price" (ngModelChange)="advertise.unit_price=$event;getUnitMoney()" name="unit_price"
+      placeholder="两位小数">
+      <span class="text-danger alert alert-danger " [hidden]="unit_price.valid || unit_price.pristine"><i class="glyphicon glyphicon-info-sign"></i>两位小数</span>
+     </div>
+  <label  class="text-default">*投放次数</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input"
+   pattern="^\+?[1-9][0-9]*$"
+    #unit_delivery_number="ngModel" required [ngModel]="advertise.unit_delivery_number" (ngModelChange)="advertise.unit_delivery_number=$event;getUnitMoney()" name="unit_delivery_number"
+      placeholder="非零正整数">
+      <span class="text-danger alert alert-danger " [hidden]="unit_delivery_number.valid || unit_delivery_number.pristine"><i class="glyphicon glyphicon-info-sign"></i>非零正整数</span>
+     </div>
+  <label  class="text-default">*广告金额</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input"
+   pattern="^\+?[1-9][0-9]*$"
+    #unit_money="ngModel" required name="unit_money"
+    [ngModel]="advertise.unit_money" 
+    [disabled]="true"
+      placeholder="大于0,两位小数">
+      <span class="text-danger alert alert-danger " [hidden]="unit_money.valid || unit_money.pristine"><i class="glyphicon glyphicon-info-sign"></i>大于0,两位小数</span>
+     </div>
+   <label class="text-info">*投放开始时间</label>
+     <div class="comment-input-margin comment-input">
+         <div class="input-group date form_datetime "   >
+         <input class="form-control"
+           #start_delivery_date="ngModel" readonly  required [(ngModel)]="advertise.start_delivery_date" name="start_delivery_date"
+          size="16" type="text" >
+					<span class="input-group-addon" style="color:red" ><span class="glyphicon glyphicon-th"></span></span>
+         </div>
+     </div>
+   <label class="text-info">*投放结束时间</label>
+     <div class="comment-input-margin comment-input">
+         <div class="input-group date form_datetime "   >
+         <input class="form-control"
+           #end_delivery_date="ngModel" readonly required [(ngModel)]="advertise.end_delivery_date" name="end_delivery_date"
+          size="16" type="text" >
+					<span class="input-group-addon" style="color:red" ><span class="glyphicon glyphicon-th"></span></span>
+         </div>
+     </div>
+  <div class="comment-input-margin" style="margin-top:50px;">
+  <button type="submit" class="btn btn-lg btn-info" [disabled]=" !updateAdvertiseForm.valid " >保存提交</button>
+  </div>
+</form>
+			</div>
+	
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>

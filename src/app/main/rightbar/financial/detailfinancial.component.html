@@ -1,0 +1,45 @@
+<button class="btn btn-primary btn-lg hidden" data-toggle="modal" id="modalClickDetail" data-target="#myModalDetail">
+	点击开始
+</button>
+<div class="modal fade" id="myModalDetail" tabindex="9999" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content" style="min-height:500px;">
+			<div class="modal-header">
+				<button type="button" class="close" id="myModalCloseDetail"  data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title text-center text-primary" id="myModalTitleDetail">
+				   {{admin.name||admin.cell_phone||admin.email}} 用户
+				</h4>
+			</div>
+			<div class="modal-body" id="myModalContentDetail">
+					<!-- 页面列表 -->
+					<div class='loadAnimation' *ngIf="showWaterinformationListIcon" style='z-index:99999'><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+					<div class="list-group" *ngIf="waterinformationList.length > 0  && !showWaterinformationListIcon ">
+					<a href="javascript:;" class="list-group-item" *ngFor="let waterinformation of waterinformationList;let index=index"
+					>{{admin.name||admin.cell_phone||admin.email}} 用户在 {{waterinformation.create_date}} {{waterinformation.type}}了 ￥<span style="color:red;">{{waterinformation.money | ratio:'2'}}</span>元.</a>
+					</div>
+							<!-- 页面列表end -->
+					<div *ngIf=" waterinformationList.length <= 0 && !showWaterinformationListIcon" class="text-center alert alert-warning">
+						没有财务记录！
+					</div>
+					<!-- 加载更多end -->
+					<div >
+						<ul class="pagination " >
+						<li><a (click)="toPage('首页')" >首页</a></li>
+						<li class="previous" ><a (click)="toPage('previous')" >&larr;</a></li>
+
+						<li *ngFor="let currentPageNumber of showPageNumberArray"><a (click)="toPage(currentPageNumber)" [ngClass]="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+						<li class="next"  ><a (click)="toPage('next')" >&rarr;</a></li>
+						<li><a (click)="toPage('尾页')" >尾页</a></li>
+						<li> <span>总页数：{{totalPage}}</span></li>
+						<li><span>总数：{{totalNumber}}</span></li>
+						</ul>
+					</div>
+					<!--  加载更多end -->
+			</div>
+	
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>

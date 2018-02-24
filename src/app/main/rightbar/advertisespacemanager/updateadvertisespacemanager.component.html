@@ -1,0 +1,119 @@
+<button class="btn btn-primary btn-lg hidden" data-toggle="modal" id="modalClick" data-target="#myModal">
+	点击开始
+</button>
+<div class="modal fade" id="myModal" tabindex="9999" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" id="myModalClose"  data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalTitle">
+					修改渠道主
+				</h4>
+			</div>
+			<div class="modal-body" id="myModalContent">
+				<form  (ngSubmit)="updateAdvertisespacemanagerSubmit()"  novalidate #updateAdvertisespacemanagerForm="ngForm">
+                    <label  class="text-default">*姓名</label>
+                <div class="comment-input-margin ">
+                    <input  type="text" class="comment-input" [disabled]="isDisabledAdvertisespacemanagerInfo"
+                        minlength="2" maxlength="16" #name="ngModel" required [(ngModel)]="admin.name" name="name" placeholder="输入姓名">
+                <span class="text-danger alert alert-danger " [hidden]="name.valid || name.pristine"><i class="glyphicon glyphicon-info-sign"></i>2-16位</span>
+                    </div>
+                <label  class="text-default">*手机号</label>
+                <div class=" comment-input-margin">
+                    <input type="text" class=" comment-input" [disabled]="isDisabledAdvertisespacemanagerInfo"
+                        pattern="^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$"  [(ngModel)]="admin.cell_phone" #cell_phone="ngModel" required name="cell_phone"   placeholder="输入手机号">
+                        <span class="text-danger alert alert-danger " [hidden]="cell_phone.valid || cell_phone.pristine"><i class="glyphicon glyphicon-info-sign"></i>输入正确手机号码</span>
+                    </div>
+                    <label  class="text-default">*邮箱</label>
+                <div class="comment-input-margin">
+                    <input type="text" class="comment-input" [disabled]="isDisabledAdvertisespacemanagerInfo"
+                        pattern="^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+(\.[a-zA-Z]{2,3})+$" #email="ngModel" required [(ngModel)]="admin.email" name="email" placeholder="输入邮箱">
+                <span class="text-danger alert alert-danger " [hidden]="email.valid || email.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写正确的邮箱</span>
+                </div>
+
+                <!--<label  class="text-default">*密码</label>
+                <div class=" comment-input-margin">
+                    <input type="text" class=" comment-input"
+                    minlength="6" maxlength="16"
+                    [disabled]="isDisabledAdvertisespacemanagerInfo"
+                    #password="ngModel" required [(ngModel)]="admin.password" name="password"
+                    placeholder="6-16位">
+                    <span class="text-danger alert alert-danger " [hidden]="password.valid || password.pristine"><i class="glyphicon glyphicon-info-sign"></i>6-16位</span>
+                    </div>-->
+
+                <label  class="text-default">身份证</label>
+                <div class=" comment-input-margin">
+                    <input type="text" class=" comment-input" [disabled]="isDisabledAdvertisespacemanagerInfo" [(ngModel)]="admin.identity_cards " 
+                    pattern="^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$" #identity_cards ="ngModel" name="identity_cards"  placeholder="输入身份证">
+                <span class="text-danger alert alert-danger " [hidden]="identity_cards.valid || identity_cards.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写15/18位身份证</span>
+                </div>
+                <label  class="text-default">QQ</label>
+                <div class=" comment-input-margin">
+                    <input type="text" class=" comment-input" [disabled]="isDisabledAdvertisespacemanagerInfo" [(ngModel)]="admin.qq " 
+                    minlength="6" maxlength="16" #qq ="ngModel" name="qq"  placeholder="输入QQ">
+                <span class="text-danger alert alert-danger " [hidden]="qq.valid || qq.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写6-16位</span>
+                </div>
+                <label  class="text-default">微信号</label>
+                <div class=" comment-input-margin">
+                    <input type="text" class=" comment-input" [disabled]="isDisabledAdvertisespacemanagerInfo" [(ngModel)]="admin.wechat " 
+                    minlength="1" maxlength="32" #wechat ="ngModel" name="wechat"  placeholder="输入微信号">
+                <span class="text-danger alert alert-danger " [hidden]="wechat.valid || wechat.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写1-32位</span>
+                </div>
+                <label  class="text-default">*开户人</label>
+                <div class=" comment-input-margin">
+                    <input type="text" class=" comment-input" [disabled]="isDisabledAdvertisespacemanagerInfo" [(ngModel)]="admin.bank_user_name " required minlength="2" maxlength="16" #bank_user_name ="ngModel" name="bank_user_name"  placeholder="输入开户人姓名">
+                <span class="text-danger alert alert-danger " [hidden]="bank_user_name.valid || bank_user_name.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写2-16位</span>
+                </div>
+                    <label  class="text-default">*开户银行</label>
+                <div class="comment-input-margin ">
+                    <input type="text" class="comment-input" [disabled]="isDisabledAdvertisespacemanagerInfo" [(ngModel)]="admin.bank_name" required minlength="2" maxlength="20" #bank_name="ngModel" name="bank_name" placeholder="输入开户银行">
+                <span class="text-danger alert alert-danger " [hidden]="bank_name.valid || bank_name.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写正确开户银行</span>
+                </div>
+                    <label  class="text-default">*银行账号</label>
+                <div class="comment-input-margin">
+                    <input type="text" class="comment-input" [disabled]="isDisabledAdvertisespacemanagerInfo" [(ngModel)]="admin.bank_account" required pattern="^[0-9]{16,19}$" #bank_account="ngModel" name="bank_account" placeholder="输入银行账号">
+                <span class="text-danger alert alert-danger " [hidden]=" bank_account.valid || bank_account.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写16/19位银行账号</span> 
+                </div>
+                    <label  class="text-default">*开户地址</label>
+                <div class="comment-input-margin">
+                    <input type="text" class="comment-input" [disabled]="isDisabledAdvertisespacemanagerInfo" [(ngModel)]="admin.bank_address" required minlength="6" maxlength="32" #bank_address="ngModel" name="bank_address" placeholder="输入开户银行地址">
+                <span class="text-danger alert alert-danger " [hidden]=" bank_address.valid || bank_address.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写6-32位开户银行地址</span> 
+                </div>
+
+                 <label  class="text-default">开账号权限</label>
+                    <div class="comment-input-margin">
+                    <select [ngModel]="admin.can_open_account" (ngModelChange)="admin.can_open_account=$event" 
+                    #can_open_account="ngModel" required  name="can_open_account"
+                    >
+                    <option value="">请选择</option>
+                    <ng-container *ngFor="let admincan_open_account of admincan_open_accounts">
+                        <option [value]="admincan_open_accounts.indexOf(admincan_open_account)<0?0:admincan_open_accounts.indexOf(admincan_open_account)">
+                        {{admincan_open_account}}
+                        </option> 
+                    </ng-container>
+                    </select>
+                    </div>
+                    <label  class="text-default">账户状态</label>
+                <div class="comment-input-margin">
+                <select [ngModel]="admin.status" (ngModelChange)="admin.status=$event" 
+                #status="ngModel" required  name="status"
+                >
+                <option value="">请选择</option>
+                <ng-container *ngFor="let adminstatus of ['审核中','正常','锁定']">
+                    <option [value]="adminstatus">
+                    {{adminstatus}}
+                    </option> 
+                </ng-container>
+                </select>
+                </div>
+  <div class="comment-input-margin" style="margin-top:50px;">
+  <button type="submit" class="btn btn-lg btn-info" [disabled]=" !updateAdvertisespacemanagerForm.valid " >保存提交</button>
+  </div>
+</form>
+			</div>
+	
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>

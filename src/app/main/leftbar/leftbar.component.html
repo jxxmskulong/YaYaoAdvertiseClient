@@ -1,0 +1,8 @@
+<!-- 左边导航 -->
+	 <div class="list-group" >
+<a  class="list-group-item  text-center" style="text-shadow:0px 0px 5px #41f306;font-weight:bold;" (click)="checkLeftBar(leftbar)" [ngClass] = "{active: isClick==leftbar}" *ngFor="let leftbar of leftbars">
+   <i [class]="leftbar.icon"></i>
+   {{menuIsShow==true?leftbar.menu:''}}
+</a>
+</div>
+	<!-- end左边导航 -->

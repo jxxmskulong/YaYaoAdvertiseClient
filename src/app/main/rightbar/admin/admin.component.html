@@ -1,0 +1,172 @@
+<div class="alert alert-danger" style="margin:20px 0;">
+  注意：带 * 号的为必填项,完整的信息是保障金钱收支的前提！</div>
+
+<div class="container-fuild ng-scope">
+		<div class="seller-notes-title"><span>|</span>账户信息</div>
+<div class="seller-notes-body">   
+		<div class="media">
+	<!--<span class="pull-left" (click)="changeAdminImg()" data-toggle="tooltip"
+        data-placement="top" title="点击修改图像" onmouseover="this.style.cursor='pointer'">
+		<img class="media-object img-thumbnail" style="width:120px;height:120px;" src="http://www.runoob.com/wp-content/uploads/2014/06/64.jpg" alt="媒体对象"> 
+    </span>-->
+    <span class="pull-left">
+		<div style="width:100px;height:100px;background-color:#ccc;margin-top:50px;color:white;border-radius:50px;line-height:100px;font-size:4rem;text-align:center;" class="glyphicon glyphicon-user" > </div>
+    </span>
+	<div class="media-body">
+		<h4 class="media-heading">&#12288;</h4>
+		<h4 class="media-heading">姓名:{{admin.name||'--'}}</h4>
+		<h4>注册时间:{{admin.create_date || '--' }}</h4>
+		<h4>最后登录时间:<span class="text-info">{{admin.last_login_date||'--'}}</span></h4>
+		<h4>我的余额:￥<span class="text-danger">{{admin.money||'0' | ratio:'2'}}</span>元</h4>
+		<h4>总充值:￥<span class="text-danger">{{admin.recharge||'0' | ratio:'2'}}</span>元</h4>
+		<h4>总提现:￥<span class="text-danger">{{admin.withdrawals||'0' | ratio:'2'}}</span>元</h4>
+	</div>
+</div>
+<div class="seller-notes-body">   
+  <!-- 保存个人信息 -->
+	<div onmouseover="this.style.cursor='pointer'" class="seller-notes-body-wrap" (click)="changeToggle('showAdminInfoWrap')">
+			<h4 class="seller-notes-body-title">个人信息
+			<span class="seller-notes-body-time ">个人信息是验证个人的重要信息,完善信息后,只能通过管理员修改！</span>
+			</h4>
+    </div>
+	<div *ngIf="showAdminInfoWrap" class="seller-notes-body-article" style="text-indent:0;">
+	<form (ngSubmit)="saveAdminInfo()"  novalidate #adminInfoForm="ngForm"  >
+    <label  class="text-default">*姓名</label>
+  <div class="comment-input-margin ">
+    <input  type="text" class="comment-input" [disabled]="isDisabledAdminInfo"
+		 minlength="2" maxlength="16" #name="ngModel" required [(ngModel)]="admin.name" name="name" placeholder="输入姓名">
+  <span class="text-danger alert alert-danger " [hidden]="name.valid || name.pristine"><i class="glyphicon glyphicon-info-sign"></i>2-16位</span>
+	</div>
+<label  class="text-default">*手机号</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" [disabled]="isDisabledAdminInfo"
+		 pattern="^(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$"  [(ngModel)]="admin.cell_phone" #cell_phone="ngModel" name="cell_phone" required  placeholder="输入手机号">
+		<span class="text-danger alert alert-danger " [hidden]="cell_phone.valid || cell_phone.pristine"><i class="glyphicon glyphicon-info-sign"></i>输入正确手机号码</span>
+	</div>
+    <label  class="text-default">*邮箱</label>
+  <div class="comment-input-margin">
+    <input type="text" class="comment-input" [disabled]="isDisabledAdminInfo"
+		 pattern="^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+(\.[a-zA-Z]{2,3})+$" #email="ngModel" required [(ngModel)]="admin.email" name="email" placeholder="输入邮箱">
+  <span class="text-danger alert alert-danger " [hidden]="email.valid || email.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写正确的邮箱</span>
+  </div>
+
+  <label  class="text-default">身份证</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" [disabled]="isDisabledAdminInfo" [(ngModel)]="admin.identity_cards " 
+    pattern="^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$" #identity_cards ="ngModel" name="identity_cards"  placeholder="输入身份证">
+  <span class="text-danger alert alert-danger " [hidden]="identity_cards.valid || identity_cards.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写15/18位身份证</span>
+  </div>
+  <label  class="text-default">QQ</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" [disabled]="isDisabledAdminInfo" [(ngModel)]="admin.qq " 
+    minlength="6" maxlength="16" #qq ="ngModel" name="qq"  placeholder="输入QQ">
+  <span class="text-danger alert alert-danger " [hidden]="qq.valid || qq.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写6-16位</span>
+  </div>
+  <label  class="text-default">微信号</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" [disabled]="isDisabledAdminInfo" [(ngModel)]="admin.wechat " 
+    minlength="1" maxlength="32" #wechat ="ngModel" name="wechat"  placeholder="输入微信号">
+  <span class="text-danger alert alert-danger " [hidden]="wechat.valid || wechat.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写1-32位</span>
+  </div>
+  <label  class="text-default">*开户人</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" [disabled]="isDisabledAdminInfo" [(ngModel)]="admin.bank_user_name " required minlength="2" maxlength="16" #bank_user_name ="ngModel" name="bank_user_name"  placeholder="输入开户人姓名">
+  <span class="text-danger alert alert-danger " [hidden]="bank_user_name.valid || bank_user_name.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写2-16位</span>
+  </div>
+    <label  class="text-default">*开户银行</label>
+  <div class="comment-input-margin ">
+    <input type="text" class="comment-input" [disabled]="isDisabledAdminInfo" [(ngModel)]="admin.bank_name" required minlength="2" maxlength="20" #bank_name="ngModel" name="bank_name" placeholder="输入开户银行">
+ <span class="text-danger alert alert-danger " [hidden]="bank_name.valid || bank_name.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写正确开户银行</span>
+  </div>
+    <label  class="text-default">*银行账号</label>
+  <div class="comment-input-margin">
+    <input type="text" class="comment-input" [disabled]="isDisabledAdminInfo" [(ngModel)]="admin.bank_account" required pattern="^[0-9]{16,19}$" #bank_account="ngModel" name="bank_account" placeholder="输入银行账号">
+ <span class="text-danger alert alert-danger " [hidden]=" bank_account.valid || bank_account.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写16/19位银行账号</span> 
+  </div>
+    <label  class="text-default">*开户地址</label>
+  <div class="comment-input-margin">
+    <input type="text" class="comment-input" [disabled]="isDisabledAdminInfo" [(ngModel)]="admin.bank_address" required minlength="6" maxlength="32" #bank_address="ngModel" name="bank_address" placeholder="输入开户银行地址">
+ <span class="text-danger alert alert-danger " [hidden]=" bank_address.valid || bank_address.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写6-32位开户银行地址</span> 
+  </div>
+    <label  class="text-default">账户状态</label>
+  <div class="comment-input-margin">
+<span class="text-info">{{admin.status}}</span> 
+  </div>
+
+    <!--<label  class="text-default">职位</label>
+  <div class="comment-input-margin">
+    <input type="text" class="comment-input" [disabled]="true" value="{{role.name||'普通员工'}}">
+ 	</div>-->
+	<div class="comment-input-margin">
+  <button type="submit" class="btn  btn-danger comment-input"  [disabled]="!adminInfoForm.valid || adminInfoSubmitDisabled" >{{adminInfoSubmitValue}}</button>
+  </div>
+</form>
+</div>
+<!-- 保存个人信息 end-->
+
+<!-- 修改密码 -->
+	<div onmouseover="this.style.cursor='pointer'" class="seller-notes-body-wrap" (click)="changeToggle('showPasswordWrap')">
+			<h4 class="seller-notes-body-title">修改密码
+			<span class="seller-notes-body-time ">安全性高的密码可以使帐号更安全。建议您定期更换密码，设置一个包含字母，符号或数字中至少两项且长度超过6位的密码。</span>
+			</h4>
+    </div>
+			<div *ngIf="showPasswordWrap" class="seller-notes-body-article" style="text-indent:0;">
+	<form (ngSubmit)="passwordSubmit()"  novalidate #passwordForm="ngForm">
+<label  class="text-default">原始密码（必填）</label>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input" [(ngModel)]="  adminPassword.oldPassword" required minlength="6" maxlength="16" #oldPassword="ngModel" name="oldPassword"  placeholder="输入原始密码">
+  <span class="text-danger alert alert-danger " [hidden]="oldPassword.valid || oldPassword.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写正确原始密码</span>
+  </div>
+    <label  class="text-default">新密码（必填）</label>
+  <div class="comment-input-margin ">
+    <input type="password" class="comment-input" [(ngModel)]="adminPassword.newPassword" required minlength="6" maxlength="16" #newPassword="ngModel" name="newPassword" placeholder="输入新密码">
+ <span class="text-danger alert alert-danger " [hidden]="newPassword.valid || newPassword.pristine"><i class="glyphicon glyphicon-info-sign"></i>请填写正确新密码</span>
+  </div>
+    <label  class="text-default">确认密码（必填）</label>
+  <div class="comment-input-margin">
+    <input type="password" class="comment-input" [(ngModel)]="adminPassword.renewPassword" required minlength="6" maxlength="16" #renewPassword="ngModel" name="renewPassword" placeholder="输入确认密码">
+ <span class="text-danger alert alert-danger " [hidden]="(adminPassword.renewPassword==adminPassword.newPassword) &&( renewPassword.valid || renewPassword.pristine)"><i class="glyphicon glyphicon-info-sign"></i>两次新密码必须一致</span> 
+  </div>
+	<div class="comment-input-margin">
+  <button type="submit" class="btn  btn-danger comment-input" [disabled]="(adminPassword.renewPassword!=adminPassword.newPassword) ||(!passwordForm.valid || passwordSubmitDisabled)" >{{passwordSubmitValue}}</button>
+  </div>
+</form>
+</div>
+<!-- 修改密码 end-->       
+<!-- 财务记录-->       
+	<div onmouseover="this.style.cursor='pointer'" class="seller-notes-body-wrap" (click)="changeToggle('showWaterinformationWrap')">
+			<h4 class="seller-notes-body-title">财务记录
+			<span class="seller-notes-body-time ">充值、提现、广告消耗、广告位赚取记录。</span>
+			</h4>
+    </div>
+	<!-- 页面列表 -->
+		<div class='loadAnimation' *ngIf="showWaterinformationWrap&&showWaterinformationListIcon" style='z-index:99999'><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+<div class="list-group" *ngIf="showWaterinformationWrap && waterinformationList.length > 0  && !showWaterinformationListIcon ">
+  <a href="javascript:;" class="list-group-item" *ngFor="let waterinformation of waterinformationList;let index=index"
+  >{{admin.name||admin.cell_phone||admin.email}} 用户 {{waterinformation.create_date |date:'yyyy-MM-dd'}} {{waterinformation.type}} ￥<span style="color:red;">{{waterinformation.money | ratio:'2'}}</span>元.</a>
+</div>
+		<!-- 页面列表end -->
+<div *ngIf="showWaterinformationWrap &&  waterinformationList.length <= 0 && !showWaterinformationListIcon" class="text-center alert alert-warning">
+       没有财务记录！
+   </div>
+<!-- 加载更多end -->
+   <div *ngIf="showWaterinformationWrap" >
+    <ul class="pagination " >
+    <li><a (click)="toPage('首页')" >首页</a></li>
+    <li class="previous" ><a (click)="toPage('previous')" >&larr;</a></li>
+
+    <li *ngFor="let currentPageNumber of showPageNumberArray"><a (click)="toPage(currentPageNumber)" [ngClass]="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a (click)="toPage('next')" >&rarr;</a></li>
+    <li><a (click)="toPage('尾页')" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    </ul>
+   </div>
+<!--  加载更多end -->
+<!-- 财务记录end-->       
+</div>
+           
+		
+		</div>
+</div>

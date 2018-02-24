@@ -1,0 +1,14 @@
+	
+  	<topbar >loading...</topbar>
+      <!-- 主体内容 -->	
+  	<div class="seller-main-body" >
+		<div class="seller-main-body-left" [ngStyle]="{'width':leftWidth,'transition':transition}" >
+  		<main-leftbar></main-leftbar>
+		<a style="position:fixed;top: 50%;border-radius: 0 30px 30px 0;height:60px;line-height: 60px;"
+		 class='glyphicon' [ngClass]="{'glyphicon-menu-left':menuIsShow,'glyphicon-menu-right':!menuIsShow}" (click)="toggleMenu(menuIsShow)"
+		 [ngStyle]="{'left':leftIcon,'font-size':fontSize,'width':width,'transition':transition}" (mouseover)="mouseoverIcon()"(mouseout)="mouseoutIcon()" ></a>
+		</div>
+  		<div class="seller-main-body-right" [ngStyle]="{'margin-left':rightLeft,'transition':transition}" >
+  		<main-rightbar></main-rightbar>
+  		</div>
+  	</div>

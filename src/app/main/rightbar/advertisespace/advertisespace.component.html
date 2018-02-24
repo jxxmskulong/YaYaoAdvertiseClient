@@ -1,0 +1,208 @@
+<!-- 添加广告位按钮 -->
+<br/><div class="btn btn-lg btn-primary" *ngIf="sessionRole.name=='超级管理员' ||  sessionRole.name=='渠道主' || sessionRole.name=='渠道管理员'" 
+ (click)="toggleListAdvertisespace()"  >{{toggleListAdvertisespaceValue}}</div>
+ <div class="btn btn-lg btn-default" *ngIf="sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'" 
+ routerLink="/main/advertisespacemanager"  >返回渠道主管理</div>
+ <div class="btn btn-lg btn-default" *ngIf="sessionAdmin.can_open_account=='1' && sessionAdmin.admin_id!=advertisespaceAdminId" 
+ [routerLink]="['/main/child',sessionAdmin.admin_id]" >返回下级账户菜单</div>
+<!-- 添加广告位按钮end -->
+<div class="alert alert-danger" style="margin:20px 0;">
+     规则：创建广告位：
+     <p>计费方式：CPM为2元/千次，CPC为0.2元/次</p>
+     <p>因为广告分发为系统智能匹配，所以不是单价越高越好，为保障各大站长利益，广告位单价初始为最低</p>
+     <p>如果修改高于初始值，则广告位需审核通过，才能使用</p>
+ </div>
+<!-- 增加广告位 -->
+	<form [hidden]="toggleListAdvertisespaceValue!='广告位列表' || (sessionRole.name!='超级管理员' && sessionRole.name!='渠道主' && sessionRole.name!='渠道管理员')" (ngSubmit)="saveAdvertisespace()"  novalidate #saveAdvertisespaceForm="ngForm">
+     <label  class="text-default">*名称</label>
+  <div class="comment-input-margin ">
+    <input  type="text" class="comment-input" 
+		 minlength="2" maxlength="16" #name="ngModel" required [(ngModel)]="advertisespace.name" name="name" placeholder="输入姓名">
+  <span class="text-danger alert alert-danger " [hidden]="name.valid || name.pristine"><i class="glyphicon glyphicon-info-sign"></i>2-16位</span>
+	</div>
+    <label  class="text-default">*投放平台</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertisespace.platform" (ngModelChange)="advertisespace.platform=$event" 
+#platform="ngModel" required  name="platform"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespaceplatform of ['PC端','移动端']">
+    <option [value]="advertisespaceplatform">
+    {{advertisespaceplatform}}
+    </option> 
+</ng-container>
+</select>
+</div>
+
+ <label  class="text-default">*展示类型</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertisespace.type" (ngModelChange)="advertisespace.type=$event" 
+#type="ngModel" required  name="type"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespacetype of ['悬浮','内嵌']">
+    <option [value]="advertisespacetype">
+    {{advertisespacetype}}
+    </option> 
+</ng-container>
+</select>
+</div>
+
+ <label  class="text-default">*业务类型</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertisespace.business_type" (ngModelChange)="advertisespace.business_type=$event" 
+#business_type="ngModel" required  name="business_type"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespacebusiness_type of advertisespacebusiness_types">
+    <option [value]="advertisespacebusiness_type">
+    {{advertisespacebusiness_type}}
+    </option> 
+</ng-container>
+</select>
+</div>
+
+   <label  class="text-default">*计费方式</label>
+   <div class="text-danger">添加后不可更改</div>
+<div class="comment-input-margin">
+<select [ngModel]="advertisespace.billing_mode" (ngModelChange)="advertisespace.billing_mode=$event"
+#billing_mode="ngModel" required  name="billing_mode"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespacebilling_mode of advertisespacebilling_modes">
+    <option [value]="advertisespacebilling_mode">
+    {{advertisespacebilling_mode}}
+    </option> 
+</ng-container>
+</select>
+</div>
+ <label  class="text-default">*地域</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertisespace.region" (ngModelChange)="advertisespace.region=$event"
+#region="ngModel" required  name="region"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespaceregion of advertisespaceregions">
+    <option [value]="advertisespaceregion">
+    {{advertisespaceregion}}
+    </option> 
+</ng-container>
+</select>
+</div>
+
+<label  class="text-default">*广告位置</label>
+<div class="comment-input-margin">
+<select [ngModel]="advertisespace.location" (ngModelChange)="advertisespace.location=$event" 
+#location="ngModel" required  name="location"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespacelocation of ['顶部','底部']">
+    <option [value]="advertisespacelocation">
+    {{advertisespacelocation}}
+    </option> 
+</ng-container>
+</select>
+</div>
+<label *ngIf="sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'" class="text-default">*状态</label>
+<div class="comment-input-margin" *ngIf="sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'">
+<select [ngModel]="advertisespace.status" (ngModelChange)="advertisespace.status=$event" 
+#status="ngModel" required  name="status"
+>
+<option value="">请选择</option>
+<ng-container *ngFor="let advertisespacestatus of ['审核中','正常']">
+    <option [value]="advertisespacestatus">
+    {{advertisespacestatus}}
+    </option> 
+</ng-container>
+</select>
+</div>
+  <label  class="text-default">*单价</label>
+  <div class="text-danger">添加后不可更改</div>
+  <div class=" comment-input-margin">
+    <input type="text" class=" comment-input"
+   pattern="(^[+]?[1-9]\d*(\.\d{1,2})?$)|(^[+]?[0]{1}(\.\d{1,2})?$)"
+    #unit_price="ngModel" required [(ngModel)]="advertisespace.unit_price"  name="unit_price"
+      placeholder="两位小数">
+      <span class="text-danger alert alert-danger " [hidden]="unit_price.valid || unit_price.pristine"><i class="glyphicon glyphicon-info-sign"></i>两位小数</span>
+     </div>
+  <div class="comment-input-margin" style="margin-top:50px;">
+  <button type="submit" class="btn btn-lg btn-info" [disabled]=" !saveAdvertisespaceForm.valid " >保存提交</button>
+  </div>
+</form>
+<!-- 增加广告位 end-->
+
+		<!-- 页面列表 -->
+		<div class='loadAnimation' *ngIf="showAdvertisespaceListIcon" style='z-index:99999'><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+<table class="table text-center table-striped"  style="border:2px solid #999;box-shadow:0 0 10px #999;" *ngIf="toggleListAdvertisespaceValue=='添加广告位' && advertisespaceList.length > 0  && !showAdvertisespaceListIcon " >
+
+ <thead>
+      <tr > 
+         <th class="text-center">序号</th>
+         <th class="text-center">名称</th>
+         <th class="text-center">投放平台</th>
+         <th class="text-center">展示类型</th>
+         <th class="text-center">业务类型</th>
+         <th class="text-center">计费方式</th>
+         <th class="text-center">地域</th>
+         <th class="text-center">广告位置</th>
+         <th class="text-center">单价</th>
+         <th class="text-center">消耗次数</th>
+         <th class="text-center">广告位金额</th>
+         <th class="text-center">状态</th>
+         <th class="text-center">更新时间</th>
+         <th class="text-center">操作</th>
+      </tr>
+   </thead>
+   <tbody >
+
+      <tr  *ngFor="let advertisespace of advertisespaceList;let index=index" > 
+         <td class="text-center">{{(currentPage-1)*pageNumber+index+1}}</td>
+         <td class="text-center">{{advertisespace.name}}</td>
+         <td class="text-center">{{advertisespace.platform}}</td>
+         <td class="text-center">{{advertisespace.type}}</td>
+         <td class="text-center">{{advertisespace.business_type}}</td>
+         <td class="text-center">{{advertisespace.billing_mode}}</td>
+         <td class="text-center">{{advertisespace.region}}</td>
+         <td class="text-center">{{advertisespace.location}}</td>
+         <td class="text-center">￥<span style="color:red;">{{advertisespace.unit_price ||'0' | ratio:'2'}}</span></td>
+         <td class="text-center">{{advertisespace.now_unit_delivery_number}}</td>
+         <td class="text-center">￥<span style="color:red;">{{advertisespace.now_unit_money||'0' | ratio:'2'}}</span></td>
+         <td class="text-center">{{advertisespace.status}}</td>
+         <td class="text-center">{{advertisespace.update_date}}</td>
+         <td class="text-center">
+         <div *ngIf="advertisespace.status=='正常' || sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'">
+         	<button class="btn btn-warning" data-target="#myModal" *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道主' || sessionRole.name=='渠道管理员'"  (click)="updateAdvertisespace(advertisespace)">编辑</button>
+         	<button class="btn btn-primary"  *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道主' || sessionRole.name=='渠道管理员'" (click)="getAdvertisespaceCode(advertisespace)">代码</button>
+         	<!--<button class="btn btn-danger"  *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道主'" (click)="delAdvertisespace(advertisespace)">删除</button>-->
+            <button class="btn btn-success" data-target="#myModalData" *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道主' || sessionRole.name=='渠道管理员'"  (click)="getAdvertisespaceData(advertisespace)">数据</button>
+         </div>
+          <div *ngIf="advertisespace.status=='审核中' && sessionRole.name=='渠道主'">
+            <span class="text-danger">审核中</span>
+          </div>
+         </td>
+      </tr>
+     
+   </tbody>
+</table>
+		<!-- 页面列表end -->
+<div *ngIf="toggleListAdvertisespaceValue=='添加广告位' &&  advertisespaceList.length <= 0 && !showAdvertisespaceListIcon" class="text-center alert alert-warning">
+       还没有广告位，点击上面的添加广告位快速添加吧！
+   </div>
+<!-- 加载更多end -->
+   <div *ngIf="toggleListAdvertisespaceValue=='添加广告位'" >
+    <ul class="pagination " >
+    <li><a (click)="toPage('首页')" >首页</a></li>
+    <li class="previous" ><a (click)="toPage('previous')" >&larr;</a></li>
+
+    <li *ngFor="let currentPageNumber of showPageNumberArray"><a (click)="toPage(currentPageNumber)" [ngClass]="{active:currentPageNumber==currentPage}">{{currentPageNumber}}</a></li>
+
+    <li class="next"  ><a (click)="toPage('next')" >&rarr;</a></li>
+    <li><a (click)="toPage('尾页')" >尾页</a></li>
+    <li> <span>总页数：{{totalPage}}</span></li>
+    <li><span>总数：{{totalNumber}}</span></li>
+    </ul>
+   </div>
+<!--  加载更多end -->
+  <main-rightbar-advertisespace-update></main-rightbar-advertisespace-update>
+  <main-rightbar-advertisespace-data></main-rightbar-advertisespace-data>
+
