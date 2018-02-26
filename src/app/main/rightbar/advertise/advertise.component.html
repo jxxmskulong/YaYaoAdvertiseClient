@@ -4,7 +4,7 @@
  <div class="btn btn-lg btn-default" *ngIf="sessionRole.name=='超级管理员' ||  sessionRole.name=='广告管理员'" 
  routerLink="/main/advertisemanager"  >返回广告主管理</div>
 
-  <div class="btn btn-lg btn-default" *ngIf="sessionAdmin.can_open_account=='1' && sessionAdmin.admin_id!=websiteAdminId" 
+  <div class="btn btn-lg btn-default" *ngIf="sessionAdmin.can_open_account=='1' && sessionAdmin.admin_id!=advertiseAdminId" 
   [routerLink]="['/main/child',sessionAdmin.admin_id]" >返回下级账户菜单</div>
 <!-- 添加广告按钮end -->
 <div class="alert alert-danger" style="margin:20px 0;">

@@ -19,6 +19,8 @@ export class UpdateadvertisemanagerComponent {
    sessionAdmin:Admin=new Admin('','','','','','','','','','','','','','','','','','','','','');//当前登录的admin;
    sessionRole:Role=new Role('','','','');//当前登录的role;
    admincan_open_accounts=[];
+ isDisabledAdvertisemanagerInfo=false;
+   
     
   updateAdvertisemanagerSubmit(){
      $.post(myUtils.getDomain()+"/admin/update",

@@ -101,8 +101,8 @@ var myUtils = {
 	 * 
 	 */
 	getDomain:function(){
-		//return "http://advertiseserver.yayao8.com";
-		return "http://localhost:8000";
+		return "http://advertiseserver.yayao8.com";
+		//return "http://localhost:8000";
 	},
 	/**
 	 * 如果没选择店铺就404

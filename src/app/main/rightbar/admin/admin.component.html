@@ -140,17 +140,17 @@
 			</h4>
     </div>
 	<!-- 页面列表 -->
-		<div class='loadAnimation' *ngIf="showWaterinformationWrap&&showWaterinformationListIcon" style='z-index:99999'><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-<div class="list-group" *ngIf="showWaterinformationWrap && waterinformationList.length > 0  && !showWaterinformationListIcon ">
+		<div class='loadAnimation' *ngIf="showWaterinformationListIcon" style='z-index:99999'><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+<div class="list-group" *ngIf="  waterinformationList.length > 0  && !showWaterinformationListIcon ">
   <a href="javascript:;" class="list-group-item" *ngFor="let waterinformation of waterinformationList;let index=index"
   >{{admin.name||admin.cell_phone||admin.email}} 用户 {{waterinformation.create_date |date:'yyyy-MM-dd'}} {{waterinformation.type}} ￥<span style="color:red;">{{waterinformation.money | ratio:'2'}}</span>元.</a>
 </div>
 		<!-- 页面列表end -->
-<div *ngIf="showWaterinformationWrap &&  waterinformationList.length <= 0 && !showWaterinformationListIcon" class="text-center alert alert-warning">
+<div *ngIf=" waterinformationList.length <= 0 && !showWaterinformationListIcon" class="text-center alert alert-warning">
        没有财务记录！
    </div>
 <!-- 加载更多end -->
-   <div *ngIf="showWaterinformationWrap" >
+   <div >
     <ul class="pagination " >
     <li><a (click)="toPage('首页')" >首页</a></li>
     <li class="previous" ><a (click)="toPage('previous')" >&larr;</a></li>

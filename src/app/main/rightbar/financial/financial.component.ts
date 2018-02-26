@@ -17,7 +17,7 @@ import { PaginationService } from '../../../service/pagination.service';//分页
 export class DetailfinancialComponent {
 
    admin:Admin=new Admin('','','','','','','','','','','','','','','','','','','','','');  
-   waterinformationList:Waterinformation=new Waterinformation('','','','','','');  
+   waterinformationList:Waterinformation[]=[new Waterinformation('','','','','','')];  
 
 totalNumber:number=0;//总管理员数目
  showPageNumberArray:number[]=[];//显示页面循环的数组 类似 1,2,3,4,5

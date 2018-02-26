@@ -18,6 +18,7 @@ export class UpdatechildComponent {
    sessionAdmin:Admin=new Admin('','','','','','','','','','','','','','','','','','','','','');//当前登录的admin;
    sessionRole:Role=new Role('','','','');//当前登录的role;
    admincan_open_accounts=[];
+   isDisabledChildInfo=false;
     
   updateChildSubmit(){
      $.post(myUtils.getDomain()+"/admin/update",
