@@ -28,7 +28,7 @@
 #type="ngModel" required  name="type"
 >
 <option value="">请选择</option>
-<ng-container *ngFor="let advertisetype of ['移动端','PC端']">
+<ng-container *ngFor="let advertisetype of ['wap','公众号','小程序','群控','微转','app']">
     <option [value]="advertisetype">
     {{advertisetype}}
     </option> 
@@ -98,7 +98,7 @@
       placeholder="http://或https://">
       <span class="text-danger alert alert-danger " [hidden]="img.valid || img.pristine"><i class="glyphicon glyphicon-info-sign"></i>广告图片地址错误</span>
      </div>-->
-     <div class="text-danger">图片尺寸为比例尺寸，宽:高=16:5 (如：宽=320px,高=100px,宽=480px,高=150px),大小不超过200KB</div>
+     <div class="text-danger">图片尺寸为比例尺寸建议宽:高=16:5 (如：宽=320px,高=100px,宽=480px,高=150px),大小不超过200KB</div>
      <div><img style="width:auto;height: auto;max-width:960px;max-height: 300px;"  [src]="advertise.img"/></div>
      <input type="file"  id="advertiseImg" required (change)="addAdvertiseImg()"/>
      <input type="hidden" name="img" [(ngModel)]="advertise.img" required />

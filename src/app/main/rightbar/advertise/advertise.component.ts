@@ -248,7 +248,7 @@ getUnitMoney(){
 updateAdvertiseImg(){
 myUtils.fileUpload(
     {inputfile:$("#updateAdvertiseImg"),
-     proportion:16/5,
+     //proportion:16/5,
     ajaxObj:{
         formData:[
             {key:"img",value:$("#updateAdvertiseImg").get(0).files[0]}
@@ -434,7 +434,7 @@ isDisabledAdvertiseInfo=false;//可以修改
 myUtils.fileUpload(
     {
         inputfile:$("#advertiseImg"),
-        proportion:16/5,
+       // proportion:16/5,
     ajaxObj:{
         formData:[
             {key:"img",value:$("#advertiseImg").get(0).files[0]}

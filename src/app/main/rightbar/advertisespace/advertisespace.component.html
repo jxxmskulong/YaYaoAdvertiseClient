@@ -26,7 +26,7 @@
 #platform="ngModel" required  name="platform"
 >
 <option value="">请选择</option>
-<ng-container *ngFor="let advertisespaceplatform of ['PC端','移动端']">
+<ng-container *ngFor="let advertisespaceplatform of ['wap','公众号','小程序','群控','微转','app']">
     <option [value]="advertisespaceplatform">
     {{advertisespaceplatform}}
     </option> 
@@ -173,6 +173,7 @@
          <div *ngIf="advertisespace.status=='正常' || sessionRole.name=='超级管理员'  || sessionRole.name=='渠道管理员'">
          	<button class="btn btn-warning" data-target="#myModal" *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道主' || sessionRole.name=='渠道管理员'"  (click)="updateAdvertisespace(advertisespace)">编辑</button>
          	<button class="btn btn-primary"  *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道主' || sessionRole.name=='渠道管理员'" (click)="getAdvertisespaceCode(advertisespace)">代码</button>
+         	<button class="btn btn-primary"  *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道主' || sessionRole.name=='渠道管理员'" (click)="getAdvertisespaceLink(advertisespace)">跳转链接</button>
          	<!--<button class="btn btn-danger"  *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道主'" (click)="delAdvertisespace(advertisespace)">删除</button>-->
             <button class="btn btn-success" data-target="#myModalData" *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='渠道主' || sessionRole.name=='渠道管理员'"  (click)="getAdvertisespaceData(advertisespace)">数据</button>
          </div>

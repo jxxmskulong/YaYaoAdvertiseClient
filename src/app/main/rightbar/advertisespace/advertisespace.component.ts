@@ -430,4 +430,12 @@ getAdvertisespaceCode(advertisespace){
   +"&lt;script&gt;var advertise_space_id="+advertisespace.advertise_space_id+"&lt;/script&gt;<br/>&lt;script src='"+myUtils.getDomain()+"/resources/js/advertisespace.js'&gt;&lt;/script&gt;";
    myUtils.myTemplate(code);
 }
+/**
+ * 获取跳转链接
+ */
+getAdvertisespaceLink(advertisespace){
+  let link="此链接为中转链接，落地页为广告链接！<hr/>"
+  +"http://ads.jiehao9.com/ads.html?adsid="+advertisespace.advertise_space_id;
+   myUtils.myTemplate(link);
+}
  }
