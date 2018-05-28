@@ -210,14 +210,14 @@
          <td class="text-center">{{advertise.end_delivery_date}}</td>
          <td class="text-center">{{advertise.update_date}}</td>
          <td class="text-center">
-         <div *ngIf="advertise.status=='草稿'">
+         <div *ngIf="advertise.status=='草稿' || sessionRole.name=='超级管理员'">
+         	<button class="btn btn-success"  *ngIf="advertise.status=='草稿'&&( sessionRole.name=='超级管理员' || sessionRole.name=='广告主' ||  sessionRole.name=='广告管理员')" (click)="addAdvertiseDelivery(advertise)">投放</button>
          	<button class="btn btn-warning" data-target="#myModal" *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='广告主' ||  sessionRole.name=='广告管理员'"  (click)="updateAdvertise(advertise)">编辑</button>
-         	<button class="btn btn-success"  *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='广告主' ||  sessionRole.name=='广告管理员'" (click)="addAdvertiseDelivery(advertise)">投放</button>
          	<button class="btn btn-danger"  *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='广告主' ||  sessionRole.name=='广告管理员'" (click)="delAdvertise(advertise)">删除</button>
          </div>
           <div *ngIf="advertise.status!='草稿'">
             <button class="btn btn-success" data-target="#myModalData" *ngIf="sessionRole.name=='超级管理员' || sessionRole.name=='广告主' ||  sessionRole.name=='广告管理员'"  (click)="getAdvertiseData(advertise)">数据</button>
-            <button class="btn btn-danger"  *ngIf="(advertise.status=='投放中' || advertise.status=='暂停') &&(sessionRole.name=='超级管理员' || sessionRole.name=='广告管理员')"  (click)="changeAdvertiseStatus(advertise)">{{advertise.status=='投放中'?'暂停':'启动'}}</button>
+            <button class="btn btn-danger"  *ngIf="(advertise.status=='投放中' || advertise.status=='暂停') &&(sessionRole.name=='超级管理员' || sessionRole.name=='广告管理员' ||sessionRole.name=='广告主')"  (click)="changeAdvertiseStatus(advertise)">{{advertise.status=='投放中'?'暂停':'启动'}}</button>
           </div>
          </td>
       </tr>
